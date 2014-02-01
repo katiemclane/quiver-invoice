@@ -74,19 +74,22 @@ angular.module('quiverInvoiceApp', [
           }
         }
       })
-      .state('invoice', {
-        url: '/invoice/:id',
+      .state('devMountain', {
+        url: '/devmountain',
         views: {
           nav: nav,
           body: {
-            templateUrl: 'views/invoice.html',
-            controller: 'InvoiceCtrl',
+            templateUrl: 'views/devmountain.html',
+            controller: function($scope, user, name) {
+              $scope.user=user;
+              $scope.name=name;
+            },
             resolve: {
-              invoices: function (invoiceService) {
-                return invoiceService.get();
+              invoices: function (userService) {
+                return userService.get();
               },
-              invoice: function ($stateParams, invoiceService, moment) {
-                if ($stateParams.id === 'new') {
+              invoice: function ($stateParams) {
+                if ($stateParams.name) {
                   return invoiceService.newInvoice();
                 } else {
                   return invoiceService.get($stateParams.id);
